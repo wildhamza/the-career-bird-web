@@ -1,11 +1,11 @@
 "use client";
 
 import Link from "next/link";
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { cn } from "@/lib/utils";
 import Navbar from "@/components/global/Navbar";
-import { Suspense, useRef, useMemo } from "react";
+import { useRef, useMemo } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { Points, PointMaterial } from "@react-three/drei";
 import * as THREE from "three";
@@ -90,7 +90,7 @@ const passwordSchema = z.string()
   .regex(/[A-Z]/, "Password must contain at least one uppercase letter")
   .regex(/[0-9]/, "Password must contain at least one number");
 
-export default function SignupPage() {
+function SignupForm() {
   const [userType, setUserType] = useState<"student" | "professor">("student");
   const [email, setEmail] = useState("");
   const [emailError, setEmailError] = useState("");
@@ -472,6 +472,18 @@ export default function SignupPage() {
         </div>
       </div>
     </main>
+  );
+}
+
+export default function SignupPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen bg-[#0B0F19] flex items-center justify-center text-teal-400">
+        Loading...
+      </div>
+    }>
+      <SignupForm />
+    </Suspense>
   );
 }
 
