@@ -252,21 +252,6 @@ function SignupForm() {
         return;
       }
 
-      // If signup successful, create profile entry
-      if (data.user) {
-        const { error: profileError } = await supabase
-          .from("profiles")
-          .insert({
-            user_id: data.user.id,
-            role: userType,
-          });
-
-        if (profileError) {
-          console.error("Profile creation error:", profileError);
-          // Don't fail the signup if profile creation fails, but log it
-        }
-      }
-
       // Check for redirect parameter from middleware
       const redirectPath = searchParams?.get("redirect");
       
