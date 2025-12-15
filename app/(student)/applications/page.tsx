@@ -2,6 +2,8 @@ import { getSupabaseServerClient } from "@/lib/supabase/server"
 import { redirect } from "next/navigation"
 import Link from "next/link"
 import { ApplicationsPageClient } from "./page-client"
+import { StudentNav } from "@/components/layout/student-nav"
+import { FadeIn } from "@/components/animations/fade-in"
 
 async function getApplicationsData() {
   const supabase = await getSupabaseServerClient()
@@ -48,36 +50,21 @@ export default async function ApplicationsPage() {
   const { applications } = await getApplicationsData()
 
   return (
-    <div className="min-h-screen bg-background">
-      {/* Header */}
-      <header className="border-b bg-background">
-        <div className="container flex h-16 items-center justify-between px-4 sm:px-6">
-          <Link href="/dashboard" className="flex items-center gap-2">
-            <div className="h-8 w-8 rounded-lg bg-primary flex items-center justify-center">
-              <span className="text-white text-xl">🐦</span>
-            </div>
-            <span className="font-semibold text-base sm:text-lg">The Career Bird</span>
-          </Link>
+    <div className="min-h-screen bg-gradient-to-br from-blue-50/30 via-white to-indigo-50/30 dark:from-blue-950/10 dark:via-background dark:to-indigo-950/10">
+      <StudentNav />
 
-          <div className="flex items-center gap-2 sm:gap-4">
-            <Link href="/dashboard" className="text-xs sm:text-sm text-muted-foreground hover:text-foreground">
-              Dashboard
-            </Link>
-            <Link href="/scholarships" className="text-xs sm:text-sm text-primary font-medium">
-              Scholarships
-            </Link>
-          </div>
-        </div>
-      </header>
-
-      <main className="container py-6 sm:py-8 lg:py-12 px-4 sm:px-6">
+      <main className="w-full max-w-7xl mx-auto py-8 sm:py-10 lg:py-12 px-4 sm:px-6 lg:px-8">
         {/* Page Header */}
-        <div className="mb-6 sm:mb-8">
-          <h1 className="text-2xl sm:text-3xl font-bold mb-2">My Applications</h1>
-          <p className="text-sm sm:text-base text-muted-foreground">
-            Track and manage all your scholarship applications in one place.
-          </p>
-        </div>
+        <FadeIn>
+          <div className="mb-8 sm:mb-10">
+            <h1 className="text-3xl sm:text-4xl font-bold mb-3 bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
+              My Applications
+            </h1>
+            <p className="text-base sm:text-lg text-muted-foreground">
+              Track and manage all your scholarship applications in one place.
+            </p>
+          </div>
+        </FadeIn>
 
         {/* Client Component for Search and List */}
         <ApplicationsPageClient applications={applications} />

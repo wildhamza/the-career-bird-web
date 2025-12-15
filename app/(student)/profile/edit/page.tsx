@@ -1,6 +1,7 @@
 import { getSupabaseServerClient } from "@/lib/supabase/server"
 import { redirect } from "next/navigation"
 import { ProfileBuilderForm } from "@/components/profile-builder-form"
+import { StudentNav } from "@/components/layout/student-nav"
 
 export default async function ProfileEditPage() {
   const supabase = await getSupabaseServerClient()
@@ -30,5 +31,10 @@ export default async function ProfileEditPage() {
     console.error("Error fetching universities:", universitiesError)
   }
 
-  return <ProfileBuilderForm profile={profile} universities={universities || []} />
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-blue-50/30 via-white to-indigo-50/30 dark:from-blue-950/10 dark:via-background dark:to-indigo-950/10">
+      <StudentNav />
+      <ProfileBuilderForm profile={profile} universities={universities || []} />
+    </div>
+  )
 }

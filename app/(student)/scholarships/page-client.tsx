@@ -11,7 +11,7 @@ import { Checkbox } from "@/components/ui/checkbox"
 import { Label } from "@/components/ui/label"
 import { SearchIcon, BookmarkIcon, ArrowRightIcon, CalendarIcon, Filter, X, ChevronLeft, ChevronRight, Loader2, Sparkles } from "lucide-react"
 import { useRouter } from "next/navigation"
-import { MarketingNav } from "@/components/layout/marketing-nav"
+import { StudentNav } from "@/components/layout/student-nav"
 import { FadeIn } from "@/components/animations/fade-in"
 import { StaggerContainer, StaggerItem } from "@/components/animations/stagger-container"
 import { motion, AnimatePresence } from "framer-motion"
@@ -269,8 +269,8 @@ export function ScholarshipsPageClient({
   ).slice(0, 10)
 
   return (
-    <div className="min-h-screen bg-background">
-      <MarketingNav user={user} />
+    <div className="min-h-screen bg-gradient-to-br from-blue-50/30 via-white to-indigo-50/30 dark:from-blue-950/10 dark:via-background dark:to-indigo-950/10">
+      <StudentNav />
 
       {/* Hero Section */}
       <div className="relative overflow-hidden border-b bg-gradient-to-br from-blue-50/50 via-white to-indigo-50/50 dark:from-blue-950/10 dark:via-background dark:to-indigo-950/10">

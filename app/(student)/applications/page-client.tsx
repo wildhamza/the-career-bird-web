@@ -8,6 +8,8 @@ import { Input } from "@/components/ui/input"
 import { Search, Filter, FileText, Calendar, MapPin, CheckCircle2, Clock, XCircle, Eye, Download } from "lucide-react"
 import Link from "next/link"
 import { ApplicationsList } from "@/components/applications/applications-list"
+import { FadeIn } from "@/components/animations/fade-in"
+import { StaggerContainer, StaggerItem } from "@/components/animations/stagger-container"
 
 interface Application {
   id: string
@@ -132,52 +134,66 @@ export function ApplicationsPageClient({ applications }: ApplicationsPageClientP
   return (
     <>
       {/* Stats Cards */}
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 mb-6 sm:mb-8">
-        <Card>
-          <CardContent className="p-4">
-            <div className="text-2xl sm:text-3xl font-bold">{stats.total}</div>
-            <p className="text-xs sm:text-sm text-muted-foreground mt-1">Total Applications</p>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardContent className="p-4">
-            <div className="text-2xl sm:text-3xl font-bold text-blue-600">{stats.submitted}</div>
-            <p className="text-xs sm:text-sm text-muted-foreground mt-1">Under Review</p>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardContent className="p-4">
-            <div className="text-2xl sm:text-3xl font-bold text-green-600">{stats.accepted}</div>
-            <p className="text-xs sm:text-sm text-muted-foreground mt-1">Accepted</p>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardContent className="p-4">
-            <div className="text-2xl sm:text-3xl font-bold text-gray-600">{stats.pending}</div>
-            <p className="text-xs sm:text-sm text-muted-foreground mt-1">Drafts</p>
-          </CardContent>
-        </Card>
-      </div>
+      <FadeIn delay={0.1}>
+        <StaggerContainer className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-8">
+          <StaggerItem>
+            <Card className="border-2 hover:shadow-lg transition-shadow">
+              <CardContent className="p-6">
+                <div className="text-3xl sm:text-4xl font-bold">{stats.total}</div>
+                <p className="text-sm text-muted-foreground mt-2">Total Applications</p>
+              </CardContent>
+            </Card>
+          </StaggerItem>
+          <StaggerItem>
+            <Card className="border-2 hover:shadow-lg transition-shadow">
+              <CardContent className="p-6">
+                <div className="text-3xl sm:text-4xl font-bold text-blue-600">{stats.submitted}</div>
+                <p className="text-sm text-muted-foreground mt-2">Under Review</p>
+              </CardContent>
+            </Card>
+          </StaggerItem>
+          <StaggerItem>
+            <Card className="border-2 hover:shadow-lg transition-shadow">
+              <CardContent className="p-6">
+                <div className="text-3xl sm:text-4xl font-bold text-green-600">{stats.accepted}</div>
+                <p className="text-sm text-muted-foreground mt-2">Accepted</p>
+              </CardContent>
+            </Card>
+          </StaggerItem>
+          <StaggerItem>
+            <Card className="border-2 hover:shadow-lg transition-shadow">
+              <CardContent className="p-6">
+                <div className="text-3xl sm:text-4xl font-bold text-gray-600">{stats.pending}</div>
+                <p className="text-sm text-muted-foreground mt-2">Drafts</p>
+              </CardContent>
+            </Card>
+          </StaggerItem>
+        </StaggerContainer>
+      </FadeIn>
 
       {/* Search and Filter */}
-      <div className="mb-6 sm:mb-8 flex flex-col sm:flex-row gap-3 sm:gap-4">
-        <div className="relative flex-1">
-          <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-          <Input
-            placeholder="Search applications by university, grant title, or status..."
-            className="pl-9"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-          />
+      <FadeIn delay={0.3}>
+        <div className="mb-8 flex flex-col sm:flex-row gap-4">
+          <div className="relative flex-1">
+            <Search className="absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-muted-foreground" />
+            <Input
+              placeholder="Search applications by university, grant title, or status..."
+              className="pl-12 h-12 border-2"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+            />
+          </div>
+          <Button variant="outline" className="w-full sm:w-auto h-12 border-2">
+            <Filter className="mr-2 h-4 w-4" />
+            Filter
+          </Button>
         </div>
-        <Button variant="outline" className="w-full sm:w-auto">
-          <Filter className="mr-2 h-4 w-4" />
-          Filter
-        </Button>
-      </div>
+      </FadeIn>
 
       {/* Applications List */}
-      <ApplicationsList applications={filteredApplications} searchQuery={searchQuery} />
+      <FadeIn delay={0.4}>
+        <ApplicationsList applications={filteredApplications} searchQuery={searchQuery} />
+      </FadeIn>
     </>
   )
 }
