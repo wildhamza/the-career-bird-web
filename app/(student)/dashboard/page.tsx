@@ -20,6 +20,9 @@ import { ProfileStrength } from "@/components/dashboard/profile-strength"
 import { ThisWeek } from "@/components/dashboard/this-week"
 import { PremiumCard } from "@/components/dashboard/premium-card"
 import { AIRecommendation } from "@/components/dashboard/ai-recommendation"
+import { StudentNav } from "@/components/layout/student-nav"
+import { FadeIn } from "@/components/animations/fade-in"
+import { StaggerContainer, StaggerItem } from "@/components/animations/stagger-container"
 
 export default async function StudentDashboard() {
   const supabase = await getSupabaseServerClient()
@@ -154,96 +157,77 @@ export default async function StudentDashboard() {
   const firstName = profile?.first_name || profile?.full_name?.split(" ")[0] || "there"
 
   return (
-    <div className="min-h-screen bg-background">
-      {/* Header */}
-      <header className="sticky top-0 z-50 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-        <div className="container mx-auto flex h-16 items-center justify-between px-4 sm:px-6 lg:px-8">
-          <Link href="/" className="flex items-center gap-2">
-            <div className="h-8 w-8 rounded-lg bg-primary flex items-center justify-center">
-              <span className="text-white text-xl">🐦</span>
-            </div>
-            <span className="font-semibold text-lg hidden sm:inline-block">The Career Bird</span>
-          </Link>
+    <div className="min-h-screen bg-gradient-to-br from-blue-50/30 via-white to-indigo-50/30 dark:from-blue-950/10 dark:via-background dark:to-indigo-950/10">
+      <StudentNav />
 
-          <nav className="hidden md:flex items-center gap-6">
-            <Link
-              href="/scholarships"
-              className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
-            >
-              Find Scholarships
-            </Link>
-            <Link
-              href="/applications"
-              className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
-            >
-              My Applications
-            </Link>
-            <Link
-              href="/profile/edit"
-              className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
-            >
-              Profile
-            </Link>
-          </nav>
-
-          <div className="flex items-center gap-2 sm:gap-3">
-            <Button variant="ghost" size="icon" className="h-9 w-9">
-              <BellIcon className="h-5 w-5" />
-              <span className="sr-only">Notifications</span>
-            </Button>
-            <Link href="/profile/edit">
-              <div className="h-8 w-8 rounded-full bg-gradient-to-br from-blue-400 to-indigo-500 cursor-pointer hover:opacity-80 transition-opacity" />
-            </Link>
-          </div>
-        </div>
-      </header>
-
-      <main className="container mx-auto px-4 py-6 sm:px-6 sm:py-8 lg:px-8">
+      <main className="w-full max-w-7xl mx-auto px-4 py-6 sm:px-6 sm:py-8 lg:px-8">
         {/* Welcome Section */}
-        <div className="mb-6 sm:mb-8">
-          <h1 className="text-2xl sm:text-3xl font-bold mb-2">Welcome back, {firstName}</h1>
-          <p className="text-sm sm:text-base text-muted-foreground">
-            {deadlinesThisWeek > 0 ? (
-              <>
-                You have{" "}
-                <span className="font-semibold text-orange-600 dark:text-orange-500">
-                  {deadlinesThisWeek} upcoming deadline{deadlinesThisWeek !== 1 ? "s" : ""}
-                </span>{" "}
-                this week.
-              </>
-            ) : (
-              "You're all caught up! No upcoming deadlines this week."
-            )}
-          </p>
-        </div>
+        <FadeIn>
+          <div className="mb-8 sm:mb-10">
+            <h1 className="text-3xl sm:text-4xl font-bold mb-3 bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
+              Welcome back, {firstName}! 👋
+            </h1>
+            <p className="text-base sm:text-lg text-muted-foreground">
+              {deadlinesThisWeek > 0 ? (
+                <>
+                  You have{" "}
+                  <span className="font-bold text-orange-600 dark:text-orange-400">
+                    {deadlinesThisWeek} upcoming deadline{deadlinesThisWeek !== 1 ? "s" : ""}
+                  </span>{" "}
+                  this week. Stay on track!
+                </>
+              ) : (
+                <>
+                  <span className="font-semibold text-green-600 dark:text-green-400">All caught up!</span> No upcoming deadlines this week.
+                </>
+              )}
+            </p>
+          </div>
+        </FadeIn>
 
         {/* Stats Cards */}
-        <div className="mb-6 sm:mb-8">
-          <DashboardStats
-            applicationsSent={applicationsSent}
-            pendingReview={pendingReview}
-            interviewsScheduled={interviewsScheduled}
-          />
-        </div>
+        <FadeIn delay={0.1}>
+          <div className="mb-8 sm:mb-10">
+            <DashboardStats
+              applicationsSent={applicationsSent}
+              pendingReview={pendingReview}
+              interviewsScheduled={interviewsScheduled}
+            />
+          </div>
+        </FadeIn>
 
         {/* Main Content Grid */}
-        <div className="grid gap-6 lg:grid-cols-3">
+        <div className="grid gap-6 lg:gap-8 lg:grid-cols-3">
           {/* Left Column - Main Content */}
-          <div className="lg:col-span-2 space-y-6">
-            {/* AI Recommended Opportunity */}
-            <AIRecommendation grant={recommendedGrant || undefined} />
+          <div className="lg:col-span-2 space-y-6 lg:space-y-8">
+            <StaggerContainer>
+              <StaggerItem>
+                {/* AI Recommended Opportunity */}
+                <AIRecommendation grant={recommendedGrant || undefined} />
+              </StaggerItem>
 
-            {/* Saved Opportunities */}
-            <SavedOpportunities savedGrants={savedGrants || []} />
+              <StaggerItem>
+                {/* Saved Opportunities */}
+                <SavedOpportunities savedGrants={savedGrants || []} />
+              </StaggerItem>
+            </StaggerContainer>
           </div>
 
           {/* Right Column - Sidebar */}
           <div className="space-y-6">
-            <ProfileStrength profile={profile} />
+            <StaggerContainer staggerDelay={0.15}>
+              <StaggerItem>
+                <ProfileStrength profile={profile} />
+              </StaggerItem>
 
-            <ThisWeek upcomingDeadlines={upcomingDeadlines || []} />
+              <StaggerItem>
+                <ThisWeek upcomingDeadlines={upcomingDeadlines || []} />
+              </StaggerItem>
 
-            <PremiumCard />
+              <StaggerItem>
+                <PremiumCard />
+              </StaggerItem>
+            </StaggerContainer>
           </div>
         </div>
       </main>
